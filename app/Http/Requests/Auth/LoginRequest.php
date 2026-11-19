@@ -38,11 +38,15 @@ class LoginRequest extends FormRequest
      *
      * @throws ValidationException
      */
-    public function authenticate(): void
+    public function authenticate(string $role = 'vendor'): void
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // Role aur is_active bhi match hona chahiye:
+        // vendor /admin se aur admin vendor page se login nahi kar sakta
+        $credentials = $this->only('email', 'password') + ['role' => $role, 'is_active' => true];
+
+        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
