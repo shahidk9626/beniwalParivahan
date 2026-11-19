@@ -29,3 +29,15 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# Local database
+/database/*.sqlite
+/database/*.sqlite-*
+
+# Laravel temporary files
+/bootstrap/cache/*.php
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/*
+/storage/logs/*
